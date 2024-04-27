@@ -25,3 +25,10 @@
 - valor codificado precisa estar dentro dos limites usados em valor de ponto flutuantes de dupla precisão
 
 ![Descrição da Codificação Numérica](numberEncoding.png)
+
+### Funções do Programa
+* *HandleCompactar()* - Gerencia todo o processo de compactação da **mídia texto**.
+* *HandleDescompactar()* - Gerencia todo o processo de descompactação da **mídia texto**.
+* *GetInput(formulario)* - Retira o input do formulário em HTML e converte o valor da variável para string
+* *VerifyAndSplitInput(frase)* - Verifica se o tamanho do input está dentro do limite e, caso não esteja, separa o mesmo em strings menores.
+* *FindProbabilites()* - Encontra a probabilidade de ocorrência de cada caracter dentro de uma string.

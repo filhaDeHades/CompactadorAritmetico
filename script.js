@@ -4,7 +4,7 @@ let listas = [] //input já separado em listas
 let tabela //tabela de probabilidades
 
 //Coordena o processo de compactação
-function HandleCompactar(params) {
+function HandleCompactar() {
     texto = GetInput(form)
     //console.log(texto)
     ArrayTexto = VerifyAndSplitInput(texto)
@@ -12,7 +12,7 @@ function HandleCompactar(params) {
 
 
 //Coordena o processo de descompactação
-function HandleDescompactar(params) {
+function HandleDescompactar() {
     
 }
 
@@ -41,6 +41,6 @@ function VerifyAndSplitInput(frase){
 }
 
 //Acha a probabilidade dos caracteres aparecerem para cada lista
-function FindProbabilites(params) {
+function FindProbabilites() {
     
 }
