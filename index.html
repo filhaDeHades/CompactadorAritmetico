@@ -1,70 +1,55 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Compactador Aritmético</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
-      rel="stylesheet"
-      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
-      crossorigin="anonymous"
-    />
-  </head>
-  <body>
-    <header class="mb-3">
-      <div class="py-3 bg-dark text-white">
-        <h1 class="text-center fw-bold">Compactador Aritmético</h1>
-      </div>
-    </header>
-    <div class="container">
-      <form id="formulario" action="" method="post">
-        <div class="mb-3">
-          <label for="texto" class="form-label"
-            >Digite o texto a ser compactado:</label
-          >
-          <input
-            type="text"
-            class="form-control"
-            name="texto"
-            id="texto"
-            placeholder=""
-          />
-        </div>
-        <div class="mb-3 text-center">
-          <button
-            class="btn btn-dark"
-            type="button"
-            onclick="HandleCompactar()"
-          >
-            Compactar
-          </button>
-          <div class="btn-group">
-            <button class="btn btn-outline-dark" type="button">Anterior</button>
-            <button class="btn btn-outline-dark" type="button">Próximo</button>
-          </div>
-          <button class="btn btn-dark" type="button">Descompactar</button>
-          <button
-            class="btn btn-outline-dark"
-            type="button"
-            onclick="ClearOutputField()"
-          >
-            Limpar
-          </button>
-        </div>
-      </form>
-    </div>
-    <div id="output-field" class="container">
-      <div id="frases-divididas">
-        <h2>Divisão de sentenças:</h2>
-      </div>
-    </div>
 
-    <script src="./script.js"></script>
-    <script
-      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
-      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
-      crossorigin="anonymous"
-    ></script>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Compactador Aritmético</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous" />
+</head>
+
+<body>
+  <header class="mb-3">
+    <div class="py-3 bg-dark text-white">
+      <h1 class="text-center fw-bold">Compactador Aritmético</h1>
+    </div>
+  </header>
+
+  <div class="container">
+    <form id="formulario" action="" method="post">
+      <div class="mb-3">
+        <label for="texto" class="form-label">Digite o texto a ser compactado:</label>
+        <input type="text" class="form-control" name="texto" id="texto" placeholder="" />
+      </div>
+
+      <div class="mb-3 text-center">
+        <button class="btn btn-dark" type="button" onclick="HandleCompactar()">
+          Compactar
+        </button>
+        <div class="btn-group">
+          <button class="btn btn-outline-dark" type="button">Anterior</button>
+          <button class="btn btn-outline-dark" type="button">Próximo</button>
+        </div>
+        <button class="btn btn-dark" type="button">Descompactar</button>
+        <button class="btn btn-outline-dark" type="button" onclick="ClearOutputField()">
+          Limpar
+        </button>
+      </div>
+      
+    </form>
+
+  </div>
+  <div id="output-field" class="container">
+    <div id="frases-divididas">
+      <h2>Divisão de sentenças:</h2>
+    </div>
+  </div>
+
+  <script src="./script.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+</body>
+
 </html>

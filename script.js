@@ -13,6 +13,7 @@ function GetInput() {
     return textField.value
 }
 
+
 function ClearOutputField() {
     while(outputFrasesField.childElementCount > 1) {
         outputFrasesField.removeChild(outputFrasesField.lastChild)
@@ -24,6 +25,9 @@ function HandleCompactar() {
     const texto = GetInput()
     const treatedText = SplitAndGenerateDict(texto)
     // Aqui temos acesso a todas as frases com todos os dicionários de probabilidade
+    console.log(treatedText)
+    //Compacta(treatedText[0].frase, treatedText[0].probs)
+
     treatedText.forEach((item) => {
         let div = document.createElement("div")
         let p = document.createElement("p")
@@ -42,23 +46,6 @@ function HandleDescompactar() {
     
 }
 
-function SplitAndGenerateDict(string) {
-    // Tipagem da lista:
-    // [
-    //     {frase, probs}
-    // ]
-    const lista = []
-
-    for(let i = 0; i<string.length; i += maxSize){
-        const frase = string.substring(i, i + maxSize)+"\u0003"
-        const probs = FindProbabilites(frase)
-        
-        lista.push({frase, probs})
-    }
-
-
-    return lista
-}
 
 //Acha a probabilidade dos caracteres aparecerem para cada lista
 function FindProbabilites(frase) {
@@ -69,6 +56,7 @@ function FindProbabilites(frase) {
         } else {
             probs[char] = 1
         }
+        console.log(probs[char])
     }
 
     for(let char in probs){
@@ -93,5 +81,41 @@ function VerifyAndSplitInput(frase){
             //Retira do array a quantidade máxima e add ao array final
         }
         //return lista
+    }
+}
+
+
+function SplitAndGenerateDict(string) {
+    // Tipagem da lista:
+    // [
+    //     {frase, probs}
+    // ]
+    const lista = []
+
+    for(let i = 0; i<string.length; i += maxSize){
+        const frase = string.substring(i, i + maxSize)+"\u0003"
+        const probs = FindProbabilites(frase)
+        
+        lista.push({frase, probs})
+    }
+
+
+    return lista
+}
+
+function Compacta(termo, lista){
+    let maxVal = 1
+    let minVal = 0
+    let tempProb = []
+    let number
+    for(let car of termo){
+        tempProb.push(minVal)
+        for(let carac of termo){
+            tempProb.push(lista[carac]+tempProb[tempProb.length - 1])
+            //Verificar o próximo intervalo e ajustar as variaveis minVal e maxVal de acordo
+        }
+        tempProb = []
+        // Final
+        number = Math.floor(Math.random() * (maxVal - minVal + 1) + minVal);
     }
 }
