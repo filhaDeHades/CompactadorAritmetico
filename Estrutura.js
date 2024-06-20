@@ -32,7 +32,7 @@ class Estrutura {
         
         this.tabela = probs;
         console.log('Tabela: ')
-        this.tabela.entries().forEach((item) => {
+        Object.entries(this.tabela).forEach((item) => {
             console.log(item[0]+" : "+item[1])
         })
     }
@@ -83,6 +83,18 @@ class Estrutura {
 
     decodificaFinalValue(){
         //console.log(this.decodifica[this.decodificaSize-1].val)
+    }
+
+    decodificacao(){
+        //Pega lista de probabilidades
+        //Max e min inicial = 1.0 e 0.0
+        //codificaTemp -> Valor temporário da frase codificada para cada iteração
+        //caracterProv -> Valor temporario do caracter decodificado (começa com primeiro caracter da lista de probabilidades)
+        //decodificado -> frase decodificada
+        //Cada iteracao de um for representa um caracter codificado
+            //for probAtual < max -->
+                //if letter >= min +  min*probAtual --> min += min*probAtual
+                //else --> caracterProv = lista de Probabilidades[probAtualIndex + 1]
     }
 }
 
