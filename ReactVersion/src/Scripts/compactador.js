@@ -73,29 +73,27 @@ export function Codifica(frase, probabilidades) {
   let encodedNumber = 0;
 
   for (let char of frase) {
+    const passosObject = {minVal, maxVal, char};
+
     let minAux = minVal;
-    // console.log("Encoding char:", char)
-    // console.log("MinAux:", minAux)
-    // console.log("Min - Max:", minVal, maxVal);
     for (let prob of probEntries) {
       const key = prob[0];
 
       const value = prob[1];
       const intervalSize = maxVal - minVal;
 
-      // console.log(`ProbCoeficient is: ${probCoeficient}`);
       if (char === key) {
         minVal = minAux;
         maxVal = minAux + (value*intervalSize);
-        // console.log(`Char ${char} === ${prob[0]}. \n minVal = ${minVal} | maxVal = ${maxVal}`);
         break;
       } else {
           minAux += (value*intervalSize);
-          // console.log(`Char ${char} !== ${prob[0]}. \n MinAux = ${minAux}`);
       }
     }
     encodedNumber = (maxVal + minVal) / 2;
-    passos.push({char, maxVal, minVal, encodedNumber});
+
+    passosObject.encodedNumber = encodedNumber;
+    passos.push(passosObject);
   }
 
   return passos;

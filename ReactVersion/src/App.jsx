@@ -35,6 +35,7 @@ function App() {
   const handleChangeMaxSize = (e) => {
     const newSize = parseInt(e.target.value);
     if (newSize < 1) return;
+    if (newSize > 13) return;
     setMaxSize(newSize);
   };
 

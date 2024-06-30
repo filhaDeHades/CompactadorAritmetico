@@ -1,43 +1,61 @@
-import React from 'react'
+import React from "react";
 
-export default function SubstringStepByStep({item, step}) {
-
-
-  function formatNumber(num){
-    return parseFloat(num.toPrecision(15));
+export default function SubstringStepByStep({ frase, probsArray, step, codifiedString }) {
+  function formatNumber(num) {
+    return parseFloat(num.toPrecision(10));
   }
 
+    const ogTextSize = frase.length * 8;
+    const compactedSize = 64;
+
+    const probsSize = probsArray.length * (8 + 64);
+
+    const sizes ={
+      originalSize: ogTextSize,
+      compactedSize: compactedSize,
+      ratio: ogTextSize / compactedSize,
+      dictionarySize: probsSize,
+    }
+
   return (
-        <div
-            className="border border-slate-700 rounded-md p-4 w-full"
-          >
-            <div className="gap-4 grid grid-cols-2">
-              <div className="flex-cols">
-                <p className="text-2xl font-bold text-center col-span-2">
-                  Substring {step}
-                </p>
-                <p className="text-center">{item.frase + "#"}</p>
+    <div className="border border-slate-700 rounded-md p-2 space-y-4 overflow-auto flex-shrink-0">
+      <div>
+        <p className="text-2xl text-center">
+          <h3 className="font-bold">Substring {step + 1}</h3>
+          <p className="text-center break-all">{frase + "#"}</p>
+        </p>
+      </div>
+      <div>
+        <h3 className="text-2xl font-bold text-center">
+          Probabilidades:{" "}
+        </h3>
+        <div className={`grid grid-rows-6 grid-flow-col gap-x-6 w-fit text-start mx-auto`}>
+          {probsArray.map(([key, value], index, array) => {
+            let keyText = key === "\u0003" ? "#" : key;
+            keyText = keyText === "\u0020" ? "SPACE" : keyText;
+
+            return (
+              <div key={key + index} className="border-l border-slate-700 p-2 whitespace-nowrap">
+                  <bold className="font-bold text-xl">{keyText}</bold>
+                  {" = "}
+                  <bold className="font-semibold text-xl">
+                    {formatNumber(value)}
+                  </bold>
               </div>
+            );
+          })}
+        </div>
+      </div>
+      <div>
+        <h3 className="text-2xl font-bold text-center">
+          String Codificada:</h3> 
+          <p className="text-center break-all">{codifiedString}</p>
+          <p className="text-center break-all text-sm text-slate-600">Ou qualquer valor dentro do último intervalo</p>
+          <p>Tamanho original: {sizes.originalSize}</p>
+          <p>Tamanho compactado: {sizes.compactedSize}</p>
+          <p>Razão de compressão: {sizes.ratio}</p>
 
-              <div>
-                <p className="text-2xl font-bold text-center col-span-2">Probabilidades: </p>
-                {Array.from(item.probs).reverse().map(([key, value], index, array) => {
-
-                        const keyText = key === "\u0003" ? "#" : key;
-                        const adjustedNumber = array.slice(index).reduce((acc, val) => acc + val[1], 0);
-
-                        return (
-                          <p key={key + index} className="items-center">
-                            <p>{formatNumber(adjustedNumber)}</p>
-                            <p className='ms-4'>{`${keyText}`}</p>
-                          </p>
-                        );
-                      })}
-                        <p>0</p>
-              </div>
-
-
-            </div>
-          </div>
-  )
+      </div>
+    </div>
+  );
 }
