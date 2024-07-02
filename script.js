@@ -230,3 +230,38 @@ function HandleCompactar2() {
         estruturas.push(est)
     })
   }
+
+  function HandleDescompactar() {
+    const texto = GetInput();
+    const treatedText = SplitString(texto)
+
+    treatedText.forEach((item) => {
+        //VVVV Aqui temos acesso a todas as frases com todos os dicionários de probabilidade VVVV
+        let est = new Estrutura(texto, item, maxSize)
+        est.createTable()
+        // -----------------------------------------------------------------------------
+
+        // VVVV Cria HTML VVVV
+        let div = document.createElement("div");
+        let p = document.createElement("p");
+        p.textContent = item;
+        div.appendChild(p);
+    
+        let ul = document.createElement("ul");
+        Array.from(est.tabela.entries()).forEach(([key, value]) => {
+            let li = document.createElement("li");
+            li.textContent = `${key === "\u0003" ? "$" : key} : ${value}`;
+            ul.appendChild(li);
+        });
+        div.appendChild(ul);
+    
+        outputFrasesField.appendChild(div);
+        //----------------------------------------------------------------------------
+
+        //
+        est.codificacao()
+        est.codificaFinalValue()
+        est.decodificacao()
+        est.decodificaFinalValue()
+    })
+  }

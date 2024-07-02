@@ -4,7 +4,7 @@ class Unidade {
         this.min = min //Float
         this.max = max // Float
         this.maxSize = extreme //Tamanho máximo de ponto fluante
-        this.val = this.defVal(min, max, extreme) //Valor da letra
+        this.val = this.defVal(min, max) //Valor da letra
     }
 
     defVal(minVal, maxVal){

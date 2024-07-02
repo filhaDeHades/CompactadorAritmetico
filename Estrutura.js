@@ -7,8 +7,9 @@ class Estrutura {
         this.codifica = [] //Array da classe Unidade
         this.codificaArray = 0
         this.codificado = 0.0
-        //this.decodifica = [] //Array da classe Unidade
-        //this.decodificaSize = 0
+        this.decodifica = [] //Array da classe Unidade
+        this.decodificaArray = 0
+        this.decodificado = ''
     }
 
     //TODO tabela de probabilidades
@@ -32,9 +33,10 @@ class Estrutura {
         
         this.tabela = probs;
         console.log('Tabela: ')
-        Object.entries(this.tabela).forEach((item) => {
-            console.log(item[0]+" : "+item[1])
-        })
+        for (const [key, item] of this.tabela) {
+            console.log(key +" : "+ item)
+        }
+        console.log()
     }
 
     addUnidade(tipo, carac, min, max, extreme){
@@ -42,7 +44,7 @@ class Estrutura {
         if(tipo){
             this.codificaArray = this.codifica.push(unidade)
         } else {
-            this.decodificaSize = this.decodifica.push(unidade)
+            this.decodificaArray = this.decodifica.push(unidade)
         }
     }
 
@@ -74,28 +76,111 @@ class Estrutura {
                 }
               }
         }
+        this.codificado = this.codifica[this.codificaArray-1].val
     }
 
     codificaFinalValue(){
-        this.codificado = this.codifica[this.codificaArray-1].val
         console.log("Frase codificada 2: " + this.codificado)
     }
 
     decodificaFinalValue(){
-        //console.log(this.decodifica[this.decodificaSize-1].val)
+        console.log("Frase Decodificada: " + this.decodificado)
     }
 
+
     decodificacao(){
-        //Pega lista de probabilidades
-        //Max e min inicial = 1.0 e 0.0
-        //codificaTemp -> Valor temporário da frase codificada para cada iteração
-        //caracterProv -> Valor temporario do caracter decodificado (começa com primeiro caracter da lista de probabilidades)
-        //decodificado -> frase decodificada
-        //Cada iteracao de um for representa um caracter codificado
-            //for probAtual < max -->
-                //if letter >= min +  min*probAtual --> min += min*probAtual
-                //else --> caracterProv = lista de Probabilidades[probAtualIndex + 1]
+        let stringCodif = this.codificado.toString()
+        let tamanho = stringCodif.length - 2
+        console.log('String: ' + stringCodif + ' tamanho: ' + tamanho)
+
+        let stringDecodif = ''
+
+        let min = 0.0
+        let max = 1.0
+        let valores = []
+        let caracteres = []
+        for (const [key, item] of this.tabela) {
+            caracteres.push(key)
+            valores.push(item)
+        }
+        console.log('Caracteres: '+caracteres + '\nValores: '+valores)
+
+        let continua = true
+        
+        while(continua){
+            let intervalos = []
+            intervalos.push(min)
+            let diferenca = max - min
+            let temp = min
+            for(let j=0; j<this.tabela.size-1;j++){ //Completo
+                let novo = valores[j]*diferenca + temp
+                temp = novo
+                intervalos.push(novo)
+            }
+            intervalos.push(max)
+            console.log('intervalos: '+ intervalos)
+
+            for(let j = 0; j<intervalos.length-1;j++){
+                if(this.codificado > intervalos[j] && this.codificado < intervalos[j+1]){
+                    stringDecodif += caracteres[j]
+                    min = intervalos[j]
+                    max = intervalos[j+1]
+                    console.log('\n\nCaracter atual: '+caracteres[j]+' Ultimo caracter: '+caracteres[caracteres.length-1]+'\n\n')
+
+                    this.addUnidade(false,caracteres[j],min,max,this.maxNumberSize)
+
+                    if(caracteres[j] === caracteres[caracteres.length-1]){
+                        continua = false
+                    }
+                    break
+                }
+            }
+            this.decodificado = stringDecodif.substring(0, stringDecodif.length - 1)
+            console.log(stringDecodif)
+            
+        }
     }
+    // decodificacao(){
+    //     //Pega lista de probabilidades
+    //     //Max e min inicial = 1.0 e 0.0
+    //     let max = 1.0
+    //     let min = 0.0
+    //     let valCodificado = this.codificado
+    //     console.log(valCodificado)
+    //     //codificaTemp -> Valor temporário da frase codificada para cada iteração
+    //     let codificaTemp = ''
+    //     //caracterProv -> Valor temporario do caracter decodificado (começa com primeiro caracter da lista de probabilidades)
+    //     let caracterProv = ''
+    //     //decodificado -> frase decodificada
+    //     let decodificado = ''
+    //     //Cada iteracao de um for representa um caracter codificado
+        
+    //     while  (!decodificado.includes('\u0003')){
+    //         let somaProb = min
+    //         for (const [key, item] of this.tabela) {
+    //             console.log('teste2')
+    //             let probAtual = item
+    //             console.log('item: ' + probAtual)
+    //             if (probAtual < max) {
+    //                 console.log('somaProb: ' + somaProb + ' intervalo: ' + (somaProb + (max - min)*probAtual))
+    //                 if (valCodificado <= somaProb + (max - min)*probAtual){
+    //                     decodificado += key
+    //                     max = somaProb + (max - min)*probAtual
+    //                     console.log('Decodificado: ' + decodificado)
+    //                 } else {
+    //                     somaProb += (max-min)*probAtual
+    //                     min += (max-min)*probAtual
+    //                     console.log('SOMAPROB : ' + somaProb)
+    //                 }
+    //             }
+    //         }
+    //     }
+            
+    //     console.log(decodificado)
+    //         //for probAtual < max -->
+    //             //if letter >= min +  min*probAtual --> min += min*probAtual
+    //             //else --> caracterProv = lista de Probabilidades[probAtualIndex + 1]
+    // }
 }
 
 // let teste2 = new Estrutura('midia', ['lista'])
