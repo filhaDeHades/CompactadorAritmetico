@@ -13,6 +13,9 @@ export default function Passo({index, probsArray, passo }) {
         return num
       }
 
+  const barHeight = 100 / probsArray.length;
+  const barBottom = barHeight * indexOfChar;
+
   return (
     <div className="border border-slate-700 rounded-md p-4">
           <p className="text-2xl font-bold text-center col-span-2">
@@ -21,12 +24,14 @@ export default function Passo({index, probsArray, passo }) {
           <div className="flex space-x-2">
             <div className="bg-slate-600 w-6 relative">
               <div
-                className={`w-full bg-green-500 z-10 absolute bottom-0`}
+                className={`w-full bg-green-500 z-10 absolute`}
                 style={{
-                  height: `${
-                    (100 * (2 * indexOfChar + 1.5)) /
-                    (probsArray.length * 2 + 1)
-                  }%`,
+                  bottom: `${barBottom}%`,
+                  height: `${barHeight}%`
+                  // height: `${
+                  //   (100 * (2 * indexOfChar + 1.5)) /
+                  //   (probsArray.length * 2 + 1)
+                  // }%`,
                 }}
               ></div>
             </div>
@@ -42,7 +47,7 @@ export default function Passo({index, probsArray, passo }) {
                 const isNextChar = array[index - 1]?.[0] === passo.char;
 
                 return (
-                  <p key={key + index} className="items-center">
+                  <div key={key + index} className="items-center">
                     <p className={`
                       ${isCurrentChar || isNextChar
                         ? "font-bold text-xl text-blue-500"
@@ -62,7 +67,7 @@ export default function Passo({index, probsArray, passo }) {
                         ? "font-bold text-xl text-blue-500"
                         : "font-semibold text-slate-500"}
                       `}>{formatNumber(passo.minVal)}</p>)}
-                  </p>
+                  </div>
                 );
               })}
             </div>

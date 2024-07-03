@@ -4,11 +4,8 @@ console.log("Compactador Aritimético carregado.");
 export function Compactar(texto, maxSize) {
   const stringsAndProbs = SplitAndGenerateDict(texto, maxSize);
   // Aqui temos acesso a todas as frases com todos os dicionários de probabilidade
-  return stringsAndProbs;
-}
 
-//Coordena o processo de descompactação
-function Descompactar() {
+  return stringsAndProbs;
 }
 
 //Acha a probabilidade dos caracteres aparecerem para cada lista XXXX
@@ -73,7 +70,7 @@ export function Codifica(frase, probabilidades) {
   let encodedNumber = 0;
 
   for (let char of frase) {
-    const passosObject = {minVal, maxVal, char};
+    const passosObject = { minVal, maxVal, char, encodedNumber: 0 };
 
     let minAux = minVal;
     for (let prob of probEntries) {
@@ -84,10 +81,10 @@ export function Codifica(frase, probabilidades) {
 
       if (char === key) {
         minVal = minAux;
-        maxVal = minAux + (value*intervalSize);
+        maxVal = minAux + value * intervalSize;
         break;
       } else {
-          minAux += (value*intervalSize);
+        minAux += value * intervalSize;
       }
     }
     encodedNumber = (maxVal + minVal) / 2;
@@ -97,52 +94,76 @@ export function Codifica(frase, probabilidades) {
   }
 
   return passos;
-
 }
 
+export function Decodifica(inputEncoded, probabilidades) {
 
-// -------------------------------------------------------------------
+  function mapToObject(map) {
+    let obj = {};
+    map.forEach((value, key) => {
+        obj[key] = value;
+    });
+    return obj;
+}
+  let cumulativeProb = {};
+  let cumulativeSum = 0.0;
+  let encodedNumber = inputEncoded
 
-// //Rodar antes de criar Estrutura
-// function SplitString(string){
-//     let frases = []
-//     for (let i = 0; i < string.length; i += maxSize) {
-//         const frase = string.substring(i, i + maxSize) + "\u0003";
-//         frases.push(frase)
-//     }
-//     return frases
-// }
+  const probabilityObj = mapToObject(probabilidades);
 
-// function HandleCompactar2() {
-//     const texto = GetInput();
-//     const treatedText = SplitString(texto)
+  for (let char in probabilityObj) {
+    cumulativeProb[char] = {
+      lower: cumulativeSum,
+      upper: cumulativeSum + probabilityObj[char],
+    };
+    cumulativeSum += probabilityObj[char];
+  }
 
-//     treatedText.forEach((item) => {
-//         //VVVV Aqui temos acesso a todas as frases com todos os dicionários de probabilidade VVVV
-//         let est = new Estrutura(texto, item, maxSize)
-//         est.createTable()
-//         // -----------------------------------------------------------------------------
+  console.log(cumulativeProb)
 
-//         // VVVV Cria HTML VVVV
-//         let div = document.createElement("div");
-//         let p = document.createElement("p");
-//         p.textContent = item;
-//         div.appendChild(p);
-    
-//         let ul = document.createElement("ul");
-//         Array.from(est.tabela.entries()).forEach(([key, value]) => {
-//             let li = document.createElement("li");
-//             li.textContent = `${key === "\u0003" ? "$" : key} : ${value}`;
-//             ul.appendChild(li);
-//         });
-//         div.appendChild(ul);
-    
-//         outputFrasesField.appendChild(div);
-//         //----------------------------------------------------------------------------
+  let result = "";
+  let foundChar = null;
 
-//         //
-//         est.codificacao()
-//         est.codificaFinalValue()
-//         estruturas.push(est)
-//     })
-//   }
+  console.log("EncodedNumber:", encodedNumber)
+
+  const steps = []
+
+  const returnObj = {
+    steps,
+    cumulativeProb
+  }
+
+  let n = 0;
+  while (true) {
+    foundChar = null;
+    for (let char in cumulativeProb) {
+      let range = cumulativeProb[char];
+
+      console.log(`Range of ${char}: ${range.lower} --> ${range.upper}`)
+
+      if (encodedNumber >= range.lower && encodedNumber < range.upper) {
+        foundChar = char;
+        result += char;
+        const nextNumber = (encodedNumber - range.lower) / (range.upper - range.lower);
+        returnObj.steps.push({
+          char,
+          range,
+          result,
+          encodedNumber,
+          nextNumber,
+        })
+        encodedNumber = nextNumber;
+        
+        break;
+      }
+    }
+
+    if (!foundChar || foundChar === "\u0003") {
+      break;
+    }
+
+    n++;
+  }
+
+  return returnObj;
+}

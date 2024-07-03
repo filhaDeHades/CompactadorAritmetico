@@ -263,5 +263,10 @@ function HandleCompactar2() {
         est.codificaFinalValue()
         est.decodificacao()
         est.decodificaFinalValue()
+
+        console.log("=====================================")
+        console.log(est.decodificacao())
+        console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        console.log(est.decodificaFinalValue())
     })
   }
