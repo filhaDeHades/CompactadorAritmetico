@@ -34,6 +34,14 @@ export default function DecodingSubstringData({ encodedNumber, probsArray}) {
           })}
         </div>
       </div>
+      <section className="text-center">
+                    <p className="text-lg font-bold text-center">
+                      Próximo parcial:
+                    </p>
+                    <p className="-mb-4">(Parcial - Low)</p>
+                    <p>______________</p>
+                    <p>(High - Low)</p>
+                  </section>
     </div>
   );
 }
